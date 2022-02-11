@@ -2,45 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BlendedMoverType
+{
+    Flocker
+}
+
 public class KinematicBlendedMoverFactory : KinematicMoverFactory
 {
-    public KinematicBlendedMover Create(MovementBehavior movementBehavior, RotationBehavior rotationBehavior, GameObject target, float maxAcceleration, float maxAngularAcceleration, Kinematic character)
+    public KinematicBlendedMover Create(BlendedMoverType moverType, RotationBehavior rotationBehavior, GameObject target, float maxAcceleration, float maxAngularAcceleration, Kinematic character)
     {
         KinematicBlendedMover result = new KinematicBlendedMover();
-       
-        switch (movementBehavior)
+        switch (moverType)
         {
-            case MovementBehavior.Arrive:
-                result.SetMoveType(new Arrive());
-                break;
-            case MovementBehavior.Flee:
-                result.SetMoveType(new Flee());
-                break;
-            case MovementBehavior.NonMover:
-                result.SetMoveType(new NonMover());
-                break;
-            case MovementBehavior.PlayerControlled:
-                result.SetMoveType(new PlayerControlled());
-                break;
-            case MovementBehavior.Pursue:
-                result.SetMoveType(new Pursue());
-                break;
-            case MovementBehavior.Seek:
-                result.SetMoveType(new Seek());
-                break;
-            case MovementBehavior.Seperation:
-                result.SetMoveType(new Separation());
-                break;
-            case MovementBehavior.Wander:
-                result.SetMoveType(new Wander());
+            case BlendedMoverType.Flocker:
+                result.SetMoveType(new BlendedSteeringBehavior(new BoidSeparation(), 0.2f));
+                //result.SetMoveType(new BlendedSteeringBehavior(new BoidSeparation(), 1.0f));
+                result.SetMoveType(new BlendedSteeringBehavior(new Arrive(), 0.5f));
+                result.SetMoveType(new BlendedSteeringBehavior(new BoidVelocityMatch(), 0.3f));
+                //result.SetMoveType(new BlendedSteeringBehavior(new ObstacleAvoidance(character), 15f));
                 break;
             default:
-                result.SetMoveType(new GoStraight());
+                //flocker is the default value
+                result.SetMoveType(new BlendedSteeringBehavior(new Separation(), 0.5f));
                 break;
         }
         switch (rotationBehavior)
         {
-            case RotationBehavior.Align:
+            case RotationBehavior.Align:   
                 result.SetRotateType(new Align());
                 break;
             case RotationBehavior.Face:
@@ -50,6 +38,7 @@ public class KinematicBlendedMoverFactory : KinematicMoverFactory
                 result.SetRotateType(new LookWhereGoing());
                 break;
         }
+        //foreach(BlendedSteeringBehavior bsb in result.move)
         result.SetTarget(target);
         result.SetMaxAcceleration(maxAcceleration);
         result.SetMaxAngularAcceleration(maxAngularAcceleration);

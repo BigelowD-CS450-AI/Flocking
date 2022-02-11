@@ -13,8 +13,8 @@ public class Kinematic : MonoBehaviour
     public float maxAngularVelocity = 145.0f; // degrees
     public float maxAcceleration = 1.0f;
     public float maxAngularAcceleration = 45.0f;
-    private Rigidbody rb;
-    public KinematicBlendedMover mover;
+    protected Rigidbody rb;
+    public IKinematicMover mover;
     public GameObject target;
 
     // child classes will get new steering data for use in our update function
@@ -24,12 +24,12 @@ public class Kinematic : MonoBehaviour
     public RotationBehavior rotationBehavior;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         steeringUpdate = new SteeringOutput(); // default to nothing. should be overriden by children
         rb = gameObject.GetComponent<Rigidbody>();
-        //KinematicMoverFactory kmf = new KinematicMoverFactory();
-        mover = new Flocker();
+        KinematicMoverFactory kmf = new KinematicMoverFactory();
+        mover = kmf.Create(movementBehavior, rotationBehavior, target, maxAcceleration, maxAngularAcceleration, this);
     }
 
     protected virtual void GetSteeringUpdate()

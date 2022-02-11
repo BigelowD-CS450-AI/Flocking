@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Flocker : KinematicBlendedMover
 {
-    Flocker()
+    public Vector3 GetPosition()
     {
-        this.SetMoveType(new BlendedSteeringBehavior());
+        return Vector3.zero;
     }
+    public Vector3 GetVelocity()
+    {
+        return Vector3.zero;
+    }
+
 }

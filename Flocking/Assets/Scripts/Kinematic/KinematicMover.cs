@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KinematicMover
+public class KinematicMover : IKinematicMover
 {
-    private SteeringBehavior moveType;
-    private SteeringBehavior rotateType;
+    protected SteeringBehavior moveType;
+    protected SteeringBehavior rotateType;
     ///private Kinematic character;
     //private GameObject target;
 

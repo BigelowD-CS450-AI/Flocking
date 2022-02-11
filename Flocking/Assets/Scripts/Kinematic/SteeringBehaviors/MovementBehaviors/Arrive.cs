@@ -32,11 +32,11 @@ public class Arrive : SteeringBehavior
         if (distance > slowRadius)
         {
             targetSpeed = maxAcceleration;
-            Debug.Log("over max");
+            //Debug.Log("over max");
         }
         else // otherwise calculate a scaled speed
         {
-            Debug.Log("under max");
+            //Debug.Log("under max");
             //targetSpeed = -(maxSpeed * distance / slowRadius); // should slowRadius here instead be targetRadius?
             targetSpeed = maxAcceleration * (distance - arriveRadius) / arriveRadius;
         }

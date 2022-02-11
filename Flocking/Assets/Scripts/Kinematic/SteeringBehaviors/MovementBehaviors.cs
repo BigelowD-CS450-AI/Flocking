@@ -8,5 +8,6 @@ public enum MovementBehavior
     Straight,
     Seek,
     Seperation,
-    Wander
+    Wander,
+    Flock
 }

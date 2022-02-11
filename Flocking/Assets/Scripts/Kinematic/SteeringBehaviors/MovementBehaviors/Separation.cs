@@ -24,6 +24,7 @@ public class Separation : SteeringBehavior
             direction.Normalize();
             result.linear += strength * direction;
         }
+        Debug.Log(result.linear);
         return result;
     }
 }
